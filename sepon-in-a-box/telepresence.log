@@ -1,0 +1,327 @@
+   0.0 TEL | Telepresence 0.93 launched at Fri Nov 16 09:33:12 2018
+   0.0 TEL |   /usr/bin/telepresence --also-proxy cord-kafka-headless
+   0.0 TEL | Platform: linux
+   0.0 TEL | Python 3.5.2 (default, Nov 23 2017, 16:37:01)
+   0.0 TEL | [GCC 5.4.0 20160609]
+   0.0 TEL | [1] Running: uname -a
+   0.0   1 | Linux serkant-VirtualBox 4.15.0-36-generic #39~16.04.1-Ubuntu SMP Tue Sep 25 08:59:23 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+   0.1 TEL | BEGIN SPAN main.py:41(main)
+   0.1 TEL | BEGIN SPAN startup.py:58(__init__)
+   0.1 TEL | [2] Capturing: kubectl version --short
+   0.2 TEL | [3] Capturing: kubectl config current-context
+   0.4 TEL | [4] Capturing: kubectl config view -o json
+   0.6 TEL | [5] Capturing: kubectl get ns default
+   0.9 TEL | Command: kubectl 1.11.3
+   0.9 TEL | Context: kubernetes-admin@kubernetes, namespace: default, version: 1.11.4
+   0.9 TEL | END SPAN startup.py:58(__init__)    0.9s
+   0.9 TEL | [6] Capturing: ssh -V
+   1.0 TEL | [7] Running: sudo -n echo -n
+   1.0 >>> | Starting proxy with method 'vpn-tcp', which has the following limitations: All processes are affected, only one telepresence can run per machine, and you can't use other VPNs. You may need to add cloud hosts and headless services with --also-proxy. For a full list of method limitations see https://telepresence.io/reference/methods.html
+   1.0 >>> | Volumes are rooted at $TELEPRESENCE_ROOT. See https://telepresence.io/howto/volumes.html for details.
+   1.0 TEL | [8] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default get pods telepresence-connectivity-check --ignore-not-found
+   6.8 TEL | Scout info: {'latest_version': '0.94', 'notices': [], 'application': 'telepresence'}
+   6.8 TEL | BEGIN SPAN deployment.py:44(create_new_deployment)
+   6.8 TEL | [9] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default delete --ignore-not-found svc,deploy --selector=telepresence=ebe00fba7fb249f8a57834688dae47ab
+   7.2 TEL | [10] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default run --restart=Always --limits=cpu=100m,memory=256Mi --requests=cpu=25m,memory=64Mi telepresence-1542349992-172365-22003 --image=datawire/telepresence-k8s:0.93 --labels=telepresence=ebe00fba7fb249f8a57834688dae47ab
+   7.4 TEL | END SPAN deployment.py:44(create_new_deployment)    0.6s
+   7.4 TEL | BEGIN SPAN remote.py:149(get_remote_info)
+   7.4 TEL | BEGIN SPAN remote.py:73(get_deployment_json)
+   7.4 TEL | [11] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default get deployment -o json --export --selector=telepresence=ebe00fba7fb249f8a57834688dae47ab
+   7.8 TEL | END SPAN remote.py:73(get_deployment_json)    0.4s
+   7.8 TEL | Searching for Telepresence pod:
+   7.8 TEL |   with name telepresence-1542349992-172365-22003-*
+   7.8 TEL |   with labels {'telepresence': 'ebe00fba7fb249f8a57834688dae47ab'}
+   7.8 TEL | [12] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default get pod -o json --export --selector=telepresence=ebe00fba7fb249f8a57834688dae47ab
+   8.4 TEL | Checking telepresence-1542349992-172365-22003-857bfcdb49-z28wh
+   8.4 TEL | Looks like we've found our pod!
+   8.4 TEL | BEGIN SPAN remote.py:111(wait_for_pod)
+   8.4 TEL | [13] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default get pod telepresence-1542349992-172365-22003-857bfcdb49-z28wh -o json
+   9.0 TEL | [14] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default get pod telepresence-1542349992-172365-22003-857bfcdb49-z28wh -o json
+   9.6 TEL | [15] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default get pod telepresence-1542349992-172365-22003-857bfcdb49-z28wh -o json
+  10.8 TEL | [16] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default get pod telepresence-1542349992-172365-22003-857bfcdb49-z28wh -o json
+  11.1 TEL | END SPAN remote.py:111(wait_for_pod)    2.8s
+  11.1 TEL | END SPAN remote.py:149(get_remote_info)    3.7s
+  11.1 TEL | BEGIN SPAN __init__.py:38(connect)
+  11.1 TEL | [17] Launching kubectl logs: kubectl --context kubernetes-admin@kubernetes --namespace default logs -f telepresence-1542349992-172365-22003-857bfcdb49-z28wh --container telepresence-1542349992-172365-22003
+  11.2 TEL | [18] Launching kubectl port-forward: kubectl --context kubernetes-admin@kubernetes --namespace default port-forward telepresence-1542349992-172365-22003-857bfcdb49-z28wh 33067:8022
+  11.2 TEL | [19] Running: ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 33067 telepresence@localhost /bin/true
+  11.2 TEL | [19] exit 255 in 0.02 secs.
+  11.4 TEL | [20] Running: ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 33067 telepresence@localhost /bin/true
+  11.5 TEL | [20] exit 255 in 0.03 secs.
+  11.6  18 | Forwarding from 127.0.0.1:33067 -> 8022
+  11.6  18 | Forwarding from [::1]:33067 -> 8022
+  11.7 TEL | [21] Running: ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 33067 telepresence@localhost /bin/true
+  11.7  18 | Handling connection for 33067
+  12.2 >>> | 
+  12.2 >>> | No traffic is being forwarded from the remote Deployment to your local machine. You can use the --expose option to specify which ports you want to forward.
+  12.2 >>> | 
+  12.2 TEL | Launching Web server for proxy poll
+  12.2 TEL | [22] Launching SSH port forward (socks and proxy poll): ssh -N -oServerAliveInterval=1 -oServerAliveCountMax=10 -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p 33067 telepresence@localhost -L127.0.0.1:33447:127.0.0.1:9050 -R9055:127.0.0.1:42343
+  12.2 TEL | END SPAN __init__.py:38(connect)    1.1s
+  12.2 TEL | BEGIN SPAN remote_env.py:65(get_remote_env)
+  12.2 TEL | [23] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default exec telepresence-1542349992-172365-22003-857bfcdb49-z28wh --container telepresence-1542349992-172365-22003 -- python3 -c 'import json, os; print(json.dumps(dict(os.environ)))'
+  12.3  18 | Handling connection for 33067
+  15.4 TEL | [23] captured in 3.18 secs.
+  15.4 TEL | END SPAN remote_env.py:65(get_remote_env)    3.2s
+  15.4 TEL | BEGIN SPAN mount.py:32(mount_remote_volumes)
+  15.4 TEL | [24] Capturing: sshfs -p 33067 -F /dev/null -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null telepresence@localhost:/ /tmp/tel-brlz3itf/fs
+  15.5  18 | Handling connection for 33067
+  16.4 TEL | END SPAN mount.py:32(mount_remote_volumes)    1.0s
+  16.4 TEL | BEGIN SPAN vpn.py:235(connect_sshuttle)
+  16.4 TEL | BEGIN SPAN vpn.py:79(get_proxy_cidrs)
+  16.4 TEL | END SPAN vpn.py:79(get_proxy_cidrs)    0.0s
+  16.4 TEL | [25] Launching sshuttle: sshuttle-telepresence -v --dns --method nat -e 'ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -F /dev/null' --to-ns 127.0.0.1:9053 -r telepresence@localhost:33067 192.168.0.0/24 192.168.204.40 10.96.0.0/12
+  16.4 TEL | BEGIN SPAN vpn.py:276(connect_sshuttle,sshuttle-wait)
+  16.4 TEL | [26] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence0'"'"')'
+  16.8  26 | Traceback (most recent call last):
+  16.8  26 |   File "<string>", line 1, in <module>
+  16.8  26 | socket.gaierror: [Errno -2] Name or service not known
+  16.9 TEL | [26] exit 1 in 0.47 secs.
+  17.0 TEL | [27] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence1'"'"')'
+  17.7  27 | Traceback (most recent call last):
+  17.7  27 |   File "<string>", line 1, in <module>
+  17.7  27 | socket.gaierror: [Errno -2] Name or service not known
+  17.7 TEL | [27] exit 1 in 0.74 secs.
+  17.8 TEL | [28] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence2'"'"')'
+  18.6  25 | Starting sshuttle proxy.
+  18.7  28 | Traceback (most recent call last):
+  18.7  28 |   File "<string>", line 1, in <module>
+  18.7  28 | socket.gaierror: [Errno -2] Name or service not known
+  18.7 TEL | [28] exit 1 in 0.91 secs.
+  18.9 TEL | [29] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence3'"'"')'
+  19.3  29 | Traceback (most recent call last):
+  19.3  29 |   File "<string>", line 1, in <module>
+  19.3  29 | socket.gaierror: [Errno -2] Name or service not known
+  19.3 TEL | [29] exit 1 in 0.40 secs.
+  19.4 TEL | [30] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence4'"'"')'
+  19.9  30 | Traceback (most recent call last):
+  19.9  30 |   File "<string>", line 1, in <module>
+  19.9  30 | socket.gaierror: [Errno -2] Name or service not known
+  19.9 TEL | [30] exit 1 in 0.48 secs.
+  20.0 TEL | [31] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence5'"'"')'
+  20.4  25 | firewall manager: Starting firewall with Python version 3.5.2
+  20.4  25 | firewall manager: ready method name nat.
+  20.4  25 | IPv6 enabled: False
+  20.4  25 | UDP enabled: False
+  20.4  25 | DNS enabled: True
+  20.4  25 | TCP redirector listening on ('127.0.0.1', 12300).
+  20.4  25 | DNS listening on ('127.0.0.1', 12300).
+  20.4  25 | Starting client with Python version 3.5.2
+  20.4  25 | c : connecting to server...
+  20.5  18 | Handling connection for 33067
+  20.5  31 | Traceback (most recent call last):
+  20.5  31 |   File "<string>", line 1, in <module>
+  20.5  31 | socket.gaierror: [Errno -2] Name or service not known
+  20.5 TEL | [31] exit 1 in 0.51 secs.
+  20.7 TEL | [32] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence6'"'"')'
+  20.8  25 | Warning: Permanently added '[localhost]:33067' (ECDSA) to the list of known hosts.
+  21.0  32 | Traceback (most recent call last):
+  21.0  32 |   File "<string>", line 1, in <module>
+  21.0  32 | socket.gaierror: [Errno -2] Name or service not known
+  21.1 TEL | [32] exit 1 in 0.33 secs.
+  21.2 TEL | [33] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence7'"'"')'
+  21.5  33 | Traceback (most recent call last):
+  21.5  33 |   File "<string>", line 1, in <module>
+  21.5  33 | socket.gaierror: [Errno -2] Name or service not known
+  21.6 TEL | [33] exit 1 in 0.41 secs.
+  21.8 TEL | [34] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence8'"'"')'
+  22.2  34 | Traceback (most recent call last):
+  22.2  34 |   File "<string>", line 1, in <module>
+  22.2  34 | socket.gaierror: [Errno -2] Name or service not known
+  22.2 TEL | [34] exit 1 in 0.45 secs.
+  22.3 TEL | [35] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence9'"'"')'
+  22.6  35 | Traceback (most recent call last):
+  22.6  35 |   File "<string>", line 1, in <module>
+  22.6  35 | socket.gaierror: [Errno -2] Name or service not known
+  22.7 TEL | [35] exit 1 in 0.34 secs.
+  22.8 TEL | [36] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence10'"'"')'
+  23.0  36 | Traceback (most recent call last):
+  23.0  36 |   File "<string>", line 1, in <module>
+  23.0  36 | socket.gaierror: [Errno -2] Name or service not known
+  23.1 TEL | [36] exit 1 in 0.29 secs.
+  23.2 TEL | [37] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence11'"'"')'
+  23.5  37 | Traceback (most recent call last):
+  23.5  37 |   File "<string>", line 1, in <module>
+  23.5  37 | socket.gaierror: [Errno -2] Name or service not known
+  23.5 TEL | [37] exit 1 in 0.32 secs.
+  23.6 TEL | [38] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence12'"'"')'
+  23.8  38 | Traceback (most recent call last):
+  23.8  38 |   File "<string>", line 1, in <module>
+  23.8  38 | socket.gaierror: [Errno -2] Name or service not known
+  23.9 TEL | [38] exit 1 in 0.27 secs.
+  24.0 TEL | [39] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence13'"'"')'
+  24.2  39 | Traceback (most recent call last):
+  24.2  39 |   File "<string>", line 1, in <module>
+  24.2  39 | socket.gaierror: [Errno -2] Name or service not known
+  24.3 TEL | [39] exit 1 in 0.30 secs.
+  24.4 TEL | [40] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence14'"'"')'
+  24.8  40 | Traceback (most recent call last):
+  24.8  40 |   File "<string>", line 1, in <module>
+  24.8  40 | socket.gaierror: [Errno -2] Name or service not known
+  24.8 TEL | [40] exit 1 in 0.42 secs.
+  25.0 TEL | [41] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence15'"'"')'
+  25.3  41 | Traceback (most recent call last):
+  25.3  41 |   File "<string>", line 1, in <module>
+  25.3  41 | socket.gaierror: [Errno -2] Name or service not known
+  25.4 TEL | [41] exit 1 in 0.37 secs.
+  25.5 TEL | [42] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence16'"'"')'
+  25.5  25 | Starting server with Python version 3.6.5
+  25.5  25 |  s: latency control setting = True
+  25.6  25 |  s: available routes:
+  25.6  25 | c : Connected.
+  25.7  25 | firewall manager: setting up.
+  25.7  25 | >> iptables -t nat -N sshuttle-12300
+  25.7  25 | >> iptables -t nat -F sshuttle-12300
+  25.7  25 | >> iptables -t nat -I OUTPUT 1 -j sshuttle-12300
+  25.7  25 | >> iptables -t nat -I PREROUTING 1 -j sshuttle-12300
+  25.8  25 | >> iptables -t nat -A sshuttle-12300 -j RETURN --dest 127.0.0.1/32 -p tcp
+  25.8  42 | Traceback (most recent call last):
+  25.8  42 |   File "<string>", line 1, in <module>
+  25.8  42 | socket.gaierror: [Errno -2] Name or service not known
+  25.8  25 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 192.168.204.40/32 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+  25.8  25 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 192.168.0.0/24 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+  25.8 TEL | [42] exit 1 in 0.34 secs.
+  25.8  25 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.96.0.0/12 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+  25.8  25 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 8.8.8.8/32 -p udp --dport 53 --to-ports 12300 -m ttl ! --ttl 42
+  25.8  25 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 224.0.0.252/32 -p udp --dport 5355 --to-ports 12300 -m ttl ! --ttl 42
+  25.8  25 | conntrack v1.4.3 (conntrack-tools): 0 flow entries have been deleted.
+  26.0 TEL | [43] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence17'"'"')'
+  26.1  25 | c : DNS request from ('10.0.2.15', 38136) to None: 37 bytes
+  31.1 TEL | [44] Running: sudo -n echo -n
+  31.1  25 | c : DNS request from ('10.0.2.15', 38136) to None: 37 bytes
+  31.5  25 | c : Accept TCP: 10.0.2.15:43152 -> 192.168.204.40:9092.
+  32.2  17 | Listening...
+  32.2  17 | 2018-11-16T06:33:40+0000 [-] Loading ./forwarder.py...
+  32.2  17 | 2018-11-16T06:33:44+0000 [-] /etc/resolv.conf changed, reparsing
+  32.2  17 | 2018-11-16T06:33:44+0000 [-] Resolver added ('10.96.0.10', 53) to server list
+  32.2  17 | 2018-11-16T06:33:44+0000 [-] SOCKSv5Factory starting on 9050
+  32.2  17 | 2018-11-16T06:33:44+0000 [socks.SOCKSv5Factory#info] Starting factory <socks.SOCKSv5Factory object at 0x7f7616d2c860>
+  32.2  17 | 2018-11-16T06:33:44+0000 [-] DNSDatagramProtocol starting on 9053
+  32.2  17 | 2018-11-16T06:33:44+0000 [-] Starting protocol <twisted.names.dns.DNSDatagramProtocol object at 0x7f7616d2cc18>
+  32.2  17 | 2018-11-16T06:33:44+0000 [-] Loaded.
+  32.2  17 | 2018-11-16T06:33:44+0000 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 18.7.0 (/usr/bin/python3.6 3.6.5) starting up.
+  32.2  17 | 2018-11-16T06:33:44+0000 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+  36.3  43 | Traceback (most recent call last):
+  36.3  43 |   File "<string>", line 1, in <module>
+  36.3  43 | socket.gaierror: [Errno -3] Temporary failure in name resolution
+  36.3 TEL | [43] exit 1 in 10.31 secs.
+  36.3 TEL | [45] Capturing: python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence18'"'"')'
+  36.4  25 | c : DNS request from ('10.0.2.15', 49920) to None: 37 bytes
+  36.4  25 | c : SW#8:10.0.2.15:43152: deleting (1 remain)
+  36.4  25 | c : SW'unknown':Mux#3: deleting (0 remain)
+  36.4  17 | 2018-11-16T06:33:48+0000 [stdout#info] Set DNS suffix we filter out to: [()]
+  36.4  17 | 2018-11-16T06:33:48+0000 [stdout#info] Result for b'hellotelepresence18' is ['127.0.0.1']
+  36.5 TEL | END SPAN vpn.py:276(connect_sshuttle,sshuttle-wait)   20.1s
+  36.5 TEL | END SPAN vpn.py:235(connect_sshuttle)   20.1s
+  36.5 TEL | Everything launched. Waiting to exit...
+  36.5 TEL | BEGIN SPAN __init__.py:530(wait_for_exit)
+  40.7  25 | c : DNS request from ('10.0.2.15', 60114) to None: 32 bytes
+  40.7  17 | 2018-11-16T06:33:52+0000 [stdout#info] A query: b'olt.voltha.svc'
+  40.7  17 | 2018-11-16T06:33:52+0000 [stdout#info] Result for b'olt.voltha.svc' is ['10.107.208.57']
+  41.5  25 | c : Accept TCP: 10.0.2.15:43230 -> 192.168.204.40:9092.
+  51.5  25 | c : Accept TCP: 10.0.2.15:43312 -> 192.168.204.40:9092.
+  51.5  25 | c : SW#8:10.0.2.15:43230: deleting (3 remain)
+  51.5  25 | c : SW'unknown':Mux#6: deleting (2 remain)
+  61.1 TEL | [46] Running: sudo -n echo -n
+  61.5  25 | c : Accept TCP: 10.0.2.15:43390 -> 192.168.204.40:9092.
+  61.5  25 | c : SW#10:10.0.2.15:43312: deleting (3 remain)
+  61.5  25 | c : SW'unknown':Mux#7: deleting (2 remain)
+  62.3 TEL | (proxy checking local liveness)
+  62.3  17 | 2018-11-16T06:34:14+0000 [Poll#info] Checkpoint
+  71.5  25 | c : Accept TCP: 10.0.2.15:43472 -> 192.168.204.40:9092.
+  71.5  25 | c : SW#8:10.0.2.15:43390: deleting (3 remain)
+  71.5  25 | c : SW'unknown':Mux#8: deleting (2 remain)
+  80.3  25 | c : DNS request from ('10.0.2.15', 48846) to None: 32 bytes
+  80.3  17 | 2018-11-16T06:34:32+0000 [stdout#info] A query: b'olt.voltha.svc'
+  80.3  17 | 2018-11-16T06:34:32+0000 [stdout#info] Result for b'olt.voltha.svc' is ['10.107.208.57']
+  81.5  25 | c : Accept TCP: 10.0.2.15:43550 -> 192.168.204.40:9092.
+  88.4 TEL | Main process (bash --norc)
+  88.4 TEL |  exited with code 130.
+  88.4 TEL | END SPAN __init__.py:530(wait_for_exit)   51.9s
+  88.4 TEL | Success. Starting cleanup.
+  88.4 >>> | Exit cleanup in progress
+  88.4 TEL | (Cleanup) Terminate local process
+  88.4 TEL | (Cleanup) Unmount remote filesystem
+  88.4 TEL | [47] Running: fusermount -z -u /tmp/tel-brlz3itf/fs
+  88.5 TEL | (Cleanup) Delete new deployment
+  88.5 TEL | [48] Capturing: kubectl --context kubernetes-admin@kubernetes --namespace default delete --ignore-not-found svc,deploy --selector=telepresence=ebe00fba7fb249f8a57834688dae47ab
+  88.8 TEL | (Cleanup) Kill background items
+  88.8 TEL | Killing BackgroundProcess [25] sshuttle
+  88.8 TEL | Killing BackgroundProcess [22] SSH port forward (socks and proxy poll)
+  88.8 TEL | [22] exit 0
+  88.8 TEL | Killing BackgroundThread Web server for proxy poll
+  88.8  25 | >> iptables -t nat -D OUTPUT -j sshuttle-12300
+  88.9  25 | >> iptables -t nat -D PREROUTING -j sshuttle-12300
+  88.9  25 | >> iptables -t nat -F sshuttle-12300
+  88.9  25 | >> iptables -t nat -X sshuttle-12300
+  88.9 TEL | Killing BackgroundProcess [18] kubectl port-forward
+  88.9  25 | Connection to localhost closed by remote host.
+  88.9 TEL | [18] exit -15
+  88.9 TEL | Killing BackgroundProcess [17] kubectl logs
+  88.9 TEL | [17] exit -15
+  88.9 TEL | Killing BackgroundThread sudo privileges holder
+  89.0 TEL | [25] exit -15
+  89.2 TEL | (sudo privileges holder thread exiting)
+  89.2 TEL | (Cleanup) Stop time tracking
+  89.2 TEL | END SPAN main.py:41(main)   89.1s
+  89.2 TEL | SPAN SUMMARY:
+  89.2 TEL |   89.1s main.py:41(main)
+  89.2 TEL |    0.9s   startup.py:58(__init__)
+  89.2 TEL |    0.2s     2 kubectl version --short
+  89.2 TEL |    0.1s     3 kubectl config current-context
+  89.2 TEL |    0.2s     4 kubectl config view -o json
+  89.2 TEL |    0.2s     5 kubectl get ns default
+  89.2 TEL |    0.0s   6 ssh -V
+  89.2 TEL |    0.0s   7 sudo -n echo -n
+  89.2 TEL |    0.3s   8 kubectl --context kubernetes-admin@kubernetes --namespace default get pods tel
+  89.2 TEL |    0.6s   deployment.py:44(create_new_deployment)
+  89.2 TEL |    0.2s     9 kubectl --context kubernetes-admin@kubernetes --namespace default delete --ign
+  89.2 TEL |    0.3s     10 kubectl --context kubernetes-admin@kubernetes --namespace default run --resta
+  89.2 TEL |    3.7s   remote.py:149(get_remote_info)
+  89.2 TEL |    0.4s     remote.py:73(get_deployment_json)
+  89.2 TEL |    0.4s       11 kubectl --context kubernetes-admin@kubernetes --namespace default get deploym
+  89.2 TEL |    0.5s     12 kubectl --context kubernetes-admin@kubernetes --namespace default get pod -o
+  89.2 TEL |    2.8s     remote.py:111(wait_for_pod)
+  89.2 TEL |    0.4s       13 kubectl --context kubernetes-admin@kubernetes --namespace default get pod tel
+  89.2 TEL |    0.3s       14 kubectl --context kubernetes-admin@kubernetes --namespace default get pod tel
+  89.2 TEL |    0.9s       15 kubectl --context kubernetes-admin@kubernetes --namespace default get pod tel
+  89.2 TEL |    0.3s       16 kubectl --context kubernetes-admin@kubernetes --namespace default get pod tel
+  89.2 TEL |    1.1s   __init__.py:38(connect)
+  89.2 TEL |    0.0s     19 ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null
+  89.2 TEL |    0.0s     20 ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null
+  89.2 TEL |    0.5s     21 ssh -F /dev/null -q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null
+  89.2 TEL |    3.2s   remote_env.py:65(get_remote_env)
+  89.2 TEL |    3.2s     23 kubectl --context kubernetes-admin@kubernetes --namespace default exec telepr
+  89.2 TEL |    1.0s   mount.py:32(mount_remote_volumes)
+  89.2 TEL |    0.9s     24 sshfs -p 33067 -F /dev/null -o StrictHostKeyChecking=no -o UserKnownHostsFile
+  89.2 TEL |   20.1s   vpn.py:235(connect_sshuttle)
+  89.2 TEL |    0.0s     vpn.py:79(get_proxy_cidrs)
+  89.2 TEL |   20.1s     vpn.py:276(connect_sshuttle,sshuttle-wait)
+  89.2 TEL |    0.5s       26 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence0'"'"')
+  89.2 TEL |    0.7s       27 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence1'"'"')
+  89.2 TEL |    0.9s       28 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence2'"'"')
+  89.2 TEL |    0.4s       29 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence3'"'"')
+  89.2 TEL |    0.5s       30 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence4'"'"')
+  89.2 TEL |    0.5s       31 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence5'"'"')
+  89.2 TEL |    0.3s       32 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence6'"'"')
+  89.2 TEL |    0.4s       33 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence7'"'"')
+  89.2 TEL |    0.5s       34 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence8'"'"')
+  89.2 TEL |    0.3s       35 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence9'"'"')
+  89.2 TEL |    0.3s       36 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence10'"'"'
+  89.2 TEL |    0.3s       37 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence11'"'"'
+  89.2 TEL |    0.3s       38 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence12'"'"'
+  89.2 TEL |    0.3s       39 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence13'"'"'
+  89.2 TEL |    0.4s       40 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence14'"'"'
+  89.2 TEL |    0.4s       41 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence15'"'"'
+  89.2 TEL |    0.3s       42 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence16'"'"'
+  89.2 TEL |   10.3s       43 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence17'"'"'
+  89.2 TEL |    0.0s         44 sudo -n echo -n
+  89.2 TEL |    0.2s       45 python3 -c 'import socket; socket.gethostbyname('"'"'hellotelepresence18'"'"'
+  89.2 TEL |   51.9s   __init__.py:530(wait_for_exit)
+  89.2 TEL |    0.0s     46 sudo -n echo -n
+  89.2 TEL |    0.0s   47 fusermount -z -u /tmp/tel-brlz3itf/fs
+  89.2 TEL |    0.4s   48 kubectl --context kubernetes-admin@kubernetes --namespace default delete --ig
+  89.2 TEL | (Cleanup) Remove temporary directory
+  89.2 TEL | (Cleanup) Remove temporary directory failed:
+  89.2 TEL | (Cleanup)   lstat: illegal type for path parameter
+  89.2 TEL | (Cleanup) Save caches

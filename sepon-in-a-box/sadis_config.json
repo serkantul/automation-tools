@@ -1,0 +1,27 @@
+{
+  "apps": {
+    "org.opencord.sadis" : {
+      "sadis" : {
+        "integration" : {
+          "cache" : {
+            "enabled" : true,
+            "maxsize" : 50,
+            "ttl" : "PT1m"
+          }
+        },
+        "entries" : [ {
+          "id" : "user1 UNI-1-1",
+          "cTag" : 99,
+          "sTag" : 112,
+          "nasPortId" : "user1 UNI-1-1", 
+          "circuitId" : "user1 UNI-1-1"
+        }, {
+          "id" : "192.168.204.151:50060",
+          "hardwareIdentifier" : "00:1b:22:00:b1:78",
+          "ipAddress" : "192.168.7.8",
+          "nasId" : "MyNASID"
+        } ]
+      }
+    }
+  }
+}

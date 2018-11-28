@@ -1,0 +1,84 @@
+{
+  "devices" : {
+    "of:0000000000000001" : {
+      "segmentrouting" : {
+        "ipv4NodeSid" : 17,
+        "name" : "leaf_1",
+        "ipv4Loopback" : "192.168.204.114",
+        "adjacencySids" : [ ],
+        "isEdgeRouter" : true,
+        "routerMac" : "00:00:02:01:06:01"
+      },
+      "basic" : {
+        "driver" : "ofdpa-ovs",
+        "name" : "leaf_1"
+      }
+    }
+  },
+  "apps" : {
+    "org.opencord.aaa" : {
+      "AAA" : {
+        "radiusSecret" : "SECRET",
+        "radiusConnectionType" : "socket",
+        "radiusHost" : "freeradius.voltha.svc.cluster.local",
+        "radiusServerPort" : "1812"
+      }
+    },
+    "org.opencord.dhcpl2relay" : {
+      "dhcpl2relay" : {
+        "useOltUplinkForServerPktInOut" : true
+      }
+    },
+    "org.onosproject.provider.lldp" : {
+      "suppression" : {
+        "deviceTypes" : [ "ROADM", "OTN", "FIBER_SWITCH", "OPTICAL_AMPLIFIER" ],
+        "annotation" : "{\"no-lldp\":null}"
+      }
+    },
+    "org.opencord.sadis" : {
+      "sadis" : {
+        "integration" : {
+          "url" : "http://sadis-service:8000/subscriber/%s",
+          "cache" : {
+            "maxsize" : 1000
+          }
+        },
+        "entries" : [ {
+          "id" : "user1 UNI-1-1",
+          "cTag" : 99,
+          "sTag" : 112,
+          "nasPortId" : "user1 UNI-1-1", 
+          "circuitId" : "user1 UNI-1-1"
+        }, {
+          "id" : "192.168.204.151:50060",
+          "hardwareIdentifier" : "00:1b:22:00:b1:78",
+          "ipAddress" : "192.168.7.8",
+          "nasId" : "MyNASID"
+        } ]
+      }
+    },
+    "org.opencord.kafka" : {
+      "kafka" : {
+        "bootstrapServers" : "cord-kafka.default.svc.cluster.local:9092"
+      }
+    }
+  },
+  "links" : { },
+  "regions" : { },
+  "ports" : {
+    "of:0000000000000001/1" : {
+      "hostLearning" : {
+        "enabled" : false
+      },
+      "interfaces" : [ ]
+    },
+    "of:0000000000000001/2" : {
+      "interfaces" : [ ],
+      "hostLearning" : {
+        "enabled" : false
+      }
+    }
+  },
+  "hosts" : { }
+}
+

@@ -1,0 +1,157 @@
+voltha flows with following onos config
++ curl --user karaf:karaf -X POST -H 'Content-Type: application/json' http://192.168.7.71:8181/onos/v1/network/configuration/ -d '{"devices":{"of:0001000000000001": {"basic" : { "driver" : "celestica" }, "accessDevice":{"uplink":"129","vlan":"112","defaultVlan":"0"}}}}'
++ echo 'Configuring IGMP Proxy and MC .....'
+Configuring IGMP Proxy and MC .....
++ curl --user karaf:karaf -X POST -H 'Content-Type: application/json' http://192.168.7.71:8181/onos/v1/network/configuration/ -d '
+{
+  "apps": {
+    "org.opencord.igmpproxy": {
+      "igmpproxy": {
+        "UnsolicitedTimeOut": 3,
+        "MaxResp": 10,
+        "KeepAliveInterval": 60,
+        "KeepAliveCount": 3,
+        "LastQueryInterval": 2,
+        "LastQueryCount": 2,
+        "FastLeave": true,
+        "PeriodicQuery": true,
+        "withRAUpLink" : true,
+        "withRADownLink": true,
+        "globalConnectPointMode" : false,
+        "pimSSmInterworking": false
+      }
+    },
+    "org.onosproject.core": {
+      "multicast": {
+        "ingressVlan": "1",
+        "egressVlan": "3012"
+      }
+    }
+  }
+}'
++ echo 'Configuring SADIS for SVLAN 112 on Swarm Node: 192.168.7.71 Serial:192.168.7.8:50060 OLTIP:192.168.7.8 .....'
+Configuring SADIS for SVLAN 112 on Swarm Node: 192.168.7.71 Serial:192.168.7.8:50060 OLTIP:192.168.7.8 .....
++ curl --user karaf:karaf -X POST -H 'Content-Type: application/json' http://192.168.7.71:8181/onos/v1/network/configuration/ -d '
+{
+  "apps": {
+    "org.opencord.sadis" : {
+      "sadis" : {
+        "integration" : {
+          "cache" : {
+            "enabled" : true,
+            "maxsize" : 50,
+            "ttl" : "PT1m"
+          }
+        },
+        "entries" : [ {
+          "id" : "user1 UNI-1-1",
+          "cTag" : 99,
+          "sTag" : 112,
+          "nasPortId" : "user1 UNI-1-1", 
+          "circuitId" : "user1 UNI-1-1"
+        }, {
+          "id" : "192.168.7.8:50060",
+          "hardwareIdentifier" : "00:1b:22:00:b1:78",
+          "ipAddress" : "192.168.7.8",
+          "nasId" : "MyNASID"
+        } ]
+      }
+    }
+  }
+}'
++ echo 'Configuring AAA .....'
+Configuring AAA .....
++ curl --user karaf:karaf -X POST -H 'Content-Type: application/json' http://192.168.7.71:8181/onos/v1/network/configuration/ -d '{"apps":{"org.opencord.aaa":{"AAA": {"radiusSecret":"xxx","radiusIp":"172.22.176.118","radiusConnectionType":"socket","packetCustomizer":"sample"}}}}'
++ sleep 5
++ echo 'Configuring DHCP L2 Relay On Logical Device: 0001000000000001 .....'
+Configuring DHCP L2 Relay On Logical Device: 0001000000000001 .....
++ curl --user karaf:karaf -X POST -H 'Content-Type: application/json' http://192.168.7.71:8181/onos/v1/network/configuration/ -d '{"apps":{"org.opencord.dhcpl2relay" : { "dhcpl2relay" : { "dhcpServerConnectPoints" : [ "of:0001000000000001/1" ] } }}}'
++ sleep 5
++ curl --user karaf:karaf -X DELETE --header 'Accept: application/json' http://192.168.7.71:8181/onos/v1/applications/org.opencord.dhcpl2relay/active
++ curl --user karaf:karaf -X POST --header 'Accept: application/json' http://192.168.7.71:8181/onos/v1/applications/org.opencord.dhcpl2relay/active
+{"name":"org.opencord.dhcpl2relay","id":117,"version":"1.2.0","category":"default","description":"DHCP L2 Relay Agent Application.","readme":"DHCP L2 Relay Agent Application.","origin":"ON.Lab","url":"http://opencord.org","featuresRepo":"mvn:org.opencord/dhcpl2relay/1.2.0/xml/features","state":"ACTIVE","features":["dhcpl2relay"],"permissions":[],"requiredApps":["org.opencord.sadis"]}+ sshpass -p karaf ssh -tt -p 8101 -o StrictHostKeyChecking=no karaf@192.168.7.71 cfg set org.opencord.olt.impl.Olt enableDhcpIgmpOnProvisioning true
+.
+
+
+Results in following flows
+
+(voltha) logical_device 0001000000000001
+(logical device 0001000000000001) flows
+Logical Device 0001000000000001 (type: n/a)
+Flows (4):
++----------+----------+-----------+---------+----------+----------+------------+
+| table_id | priority |    cookie | in_port | eth_type | ip_proto |     output |
++----------+----------+-----------+---------+----------+----------+------------+
+|        0 |    10000 | ~8f02be36 |     129 |      800 |        2 | CONTROLLER |
+|        0 |     1000 | ~4bf0dd69 |     129 |     888E |          | CONTROLLER |
+|        0 |     1000 | ~1e1ab338 |      21 |     888E |          | CONTROLLER |
+|        0 |    10000 | ~1b528099 |      21 |      800 |        2 | CONTROLLER |
++----------+----------+-----------+---------+----------+----------+------------+
+(logical device 0001000000000001) exit
+(voltha) devices
+Devices:
++------------------+---------------+------+------------------+-------------+-------------+----------------+-------------------+----------------------------+-----------+-------------------------+----------------------+------------------------------+--------------------------------+-----------------------------------+
+|               id |          type | root |        parent_id | admin_state | oper_status | connect_status |     host_and_port |                     reason | vendor_id | proxy_address.device_id | proxy_address.onu_id | proxy_address.onu_session_id | proxy_address.channel_group_id | proxy_address.channel_termination |
++------------------+---------------+------+------------------+-------------+-------------+----------------+-------------------+----------------------------+-----------+-------------------------+----------------------+------------------------------+--------------------------------+-----------------------------------+
+| 0001f255fb3b64c3 | asfvolt16_olt | True | 0001000000000001 |     ENABLED |      ACTIVE |      REACHABLE | 192.168.7.8:50060 | OLT activated successfully |           |                         |                      |                              |                                |                                   |
+| 0001902df006d2a9 |  broadcom_onu | True | 0001f255fb3b64c3 |     ENABLED |      ACTIVE |      REACHABLE |                   |                            |      BRCM |        0001f255fb3b64c3 |                    1 |                            1 |                              1 |                          PON port |
++------------------+---------------+------+------------------+-------------+-------------+----------------+-------------------+----------------------------+-----------+-------------------------+----------------------+------------------------------+--------------------------------+-----------------------------------+
+(voltha) device 0001f255fb3b64c3
+(device 0001f255fb3b64c3) flows
+Device 0001f255fb3b64c3 (type: asfvolt16_olt)
+Flows (4):
++----------+----------+-----------+---------+----------+----------+----------+----------+----------+--------------+----------+-----------+--------+
+| table_id | priority |    cookie | in_port | vlan_vid | vlan_pcp | eth_type | ip_proto | metadata | set_vlan_vid | pop_vlan | push_vlan | output |
++----------+----------+-----------+---------+----------+----------+----------+----------+----------+--------------+----------+-----------+--------+
+|        0 |     1000 | ~1e1ab338 |      21 |       21 |          |     888E |          |          |         4000 |          |      8100 |    129 |
+|        0 |     1000 |         0 |     129 |     4000 |        0 |          |          |       21 |              |      Yes |           |     21 |
+|        0 |    10000 | ~1b528099 |      21 |       21 |          |      800 |        2 |          |         4000 |          |      8100 |    129 |
+|        0 |    10000 |         0 |     129 |     4000 |        0 |          |          |       21 |              |      Yes |           |     21 |
++----------+----------+-----------+---------+----------+----------+----------+----------+----------+--------------+----------+-----------+--------+
+(device 0001f255fb3b64c3) exit
+(voltha) device
+device   devices  
+(voltha) device 0001902df006d2a9
+(device 0001902df006d2a9) flows
+Device 0001902df006d2a9 (type: broadcom_onu)
+Flows (3):
++----------+----------+--------+---------+----------+--------------+-----------+--------+
+| table_id | priority | cookie | in_port | vlan_vid | set_vlan_vid | push_vlan | output |
++----------+----------+--------+---------+----------+--------------+-----------+--------+
+|        0 |      500 |      0 |      21 |        0 |            0 |           |    100 |
+|        0 |      500 |      0 |      21 | untagged |            0 |      8100 |    100 |
+|        0 |      500 |      0 |     100 |        0 |            0 |           |     21 |
++----------+----------+--------+---------+----------+--------------+-----------+--------+
+(device 0001902df006d2a9) 
+
+
+ONU Gem ports
+# bs /b/e gem
+Object: gem/index=2. Object type: gem. Owned by: system
+==============================
+               index : 2
+            gem_port : 1024
+           flow_type : ethernet
+              us_cfg : {tcont={tcont/index=2},encrpt=no}
+              ds_cfg : {discard_prty=low,destination=eth}
+                stat : {rx_packets=0,rx_bytes=0,tx_packets=0,tx_bytes=0,rx_packets_discard=0,tx_packets_discard=0}
+Object: gem/index=1. Object type: gem. Owned by: system
+==============================
+               index : 1
+            gem_port : 4000
+           flow_type : ethernet
+              us_cfg : {tcont=null,encrpt=no}
+              ds_cfg : {discard_prty=low,destination=iptv}
+                stat : {rx_packets=0,rx_bytes=0,tx_packets=0,tx_bytes=0,rx_packets_discard=0,tx_packets_discard=0}
+Object: gem/index=0. Object type: gem. Owned by: system
+==============================
+               index : 0
+            gem_port : 1
+           flow_type : omci
+              us_cfg : {tcont={tcont/index=0},encrpt=no}
+              ds_cfg : {discard_prty=high,destination=omci}
+                stat : {rx_packets=8213,rx_bytes=394224,tx_packets=24,tx_bytes=1248,rx_packets_discard=0,tx_packets_discard=0}
+# 
+
+
+
